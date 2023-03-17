@@ -10,6 +10,7 @@ port = 4080;
 app.listen(port, () => {
     console.log(`Port::${port}`);
 });
+//Conexció BDD ----------------------------------------------------------------------------
 
 var admin = require("firebase-admin");
 
@@ -22,6 +23,8 @@ admin.initializeApp({
 });
 
 const db = getFirestore();
+
+//-----------------------------------------------------------------------------------------
 
 app.post('/registre', cors(), (req, res)=>{
 
@@ -99,7 +102,6 @@ async function sendEmail(name, email) {
         .catch(function (error) {
             console.log(error);
         });
-
 }
 
 app.post('/api/sendemail/', function (req, res) {
