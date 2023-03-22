@@ -133,8 +133,6 @@ app.get('/api/nombre', async (req,res)=>{
     res.json(documento)
 });
 
-
-
 //images ordiandor
 app.get('/images/ordinador/msimodern', async (req, res) => {
     res.sendFile(__dirname+'\\images\\MSI Modern.png');
