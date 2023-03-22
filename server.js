@@ -130,3 +130,17 @@ app.get('/api/nombre', async (req,res)=>{
     })
     res.json(documento)
 });
+
+
+
+//images
+app.get('/images/ordinador', async (req, res) => {
+    res.sendFile('images\\Asus TUF.png');
+});
+
+
+app.get('/imagen/asus', (req, res) => {
+    const nombreImagen = req.params.nombre;
+    const rutaImagen = path.join('C:\\Users\\Dani Gelabert\\Documents\\DAM\\M04 - Llengües de marques i SGI\\serverProjecteFinal\\images\\Asus TUF.png');
+    res.sendFile(rutaImagen);
+});
