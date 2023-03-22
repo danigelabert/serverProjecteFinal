@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const fs = require('fs')
 
 app.use(express.json(), cors());
 
@@ -10,19 +11,33 @@ port = 4080;
 app.listen(port, () => {
     console.log(`Port::${port}`);
 });
+
+var resultat;
+
 //Conexció BDD ----------------------------------------------------------------------------
+app.post('/lecturaBD', cors(), (req, res)=>{
+    const readableStream = fs.createReadStream("./bdd_connect", 'utf8');
+    readableStream.on('data', (chunk)=>{
+        resultat = chunk;
+    });
+})
 
-var admin = require("firebase-admin");
+const db= function (){
+    const admin = require("firebase-admin");
+    const serviceAccount= require(resultat);
+    const {getFirestore} = require("firebase-admin/firestore");
 
-var serviceAccount = require(".\\usuaris-e30d6-firebase-adminsdk-6aa2i-283c975af3.json");
+    if (admin.apps.length===0){
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount)
+        });
+    }
 
-const {getFirestore} = require("firebase-admin/firestore");
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
-
-const db = getFirestore();
+    return getFirestore();
+}
+app.post('/prova', (req, res) => {
+    db();
+})
 
 //-----------------------------------------------------------------------------------------
 
@@ -69,6 +84,9 @@ app.get('/contrasenya', async (req,res)=>{
 });
 
 const axios = require('axios');
+const admin = require("firebase-admin");
+
+
 
 async function sendEmail(name, email) {
     const data = JSON.stringify({
@@ -132,3 +150,5 @@ app.get('/api/nombre', async (req,res)=>{
     })
     res.json(documento)
 });
+
+
