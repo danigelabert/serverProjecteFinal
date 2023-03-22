@@ -133,14 +133,59 @@ app.get('/api/nombre', async (req,res)=>{
 
 
 
-//images
-app.get('/images/ordinador', async (req, res) => {
-    res.sendFile('images\\Asus TUF.png');
+//images ordiandor
+app.get('/images/ordinador/msimodern', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\MSI Modern.png');
+});
+app.get('/images/ordinador/hpomen', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\HP Omen.png');
+});
+app.get('/images/ordinador/asustuf', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\Asus TUF.png');
+});
+app.get('/images/ordinador/asusf515', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\Asus F515.png');
+});
+app.get('/images/ordinador/macbook', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\Apple MacBook.png');
 });
 
 
-app.get('/imagen/asus', (req, res) => {
-    const nombreImagen = req.params.nombre;
-    const rutaImagen = path.join('C:\\Users\\Dani Gelabert\\Documents\\DAM\\M04 - Llengües de marques i SGI\\serverProjecteFinal\\images\\Asus TUF.png');
-    res.sendFile(rutaImagen);
+//images mobils
+app.get('/images/mobil/iphone14', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\iPhone 14 Pro Max.png');
 });
+app.get('/images/mobil/iphone13', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\iPhone 13.png');
+});
+app.get('/images/mobil/realmegt', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\realme.png');
+});
+app.get('/images/mobil/oppofind', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\Asus F515.png');
+});
+app.get('/images/mobil/xiaomi12t', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\oppo.png');
+});
+app.get('/images/mobil/s22', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\s22 ultra.png');
+});
+
+
+//images periferics
+app.get('/images/periferics/newskill', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\newskill.png');
+});
+app.get('/images/periferics/logitech', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\k120.png');
+});
+app.get('/images/periferics/forgeon', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\forgeon.png');
+});
+app.get('/images/periferics/razer', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\razer.png');
+});
+app.get('/images/periferics/asus', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\Asus P307.png');
+});
+
