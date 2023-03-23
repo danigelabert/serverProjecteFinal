@@ -189,3 +189,104 @@ app.get('/images/periferics/asus', async (req, res) => {
     res.sendFile(__dirname+'\\images\\Asus P307.png');
 });
 
+
+//foto slider pagina principal
+app.get('/images/slider/foto1', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\foto1.png');
+});
+app.get('/images/slider/foto2', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\foto2.png');
+});
+app.get('/images/slider/foto3', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\foto3.png');
+});
+app.get('/images/slider/foto4', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\foto4.png');
+});
+
+//foto buscador
+app.get('/images/buscador/logo', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\logo.png');
+});
+
+//foto css
+app.get('/images/css/lupa', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\lupa.png');
+});
+
+app.get('/images/css/carrito', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\carrito.png');
+});
+
+app.get('/images/css/login', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\login.png');
+});
+
+app.get('/images/css/exit', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\exit.png');
+});
+
+app.get('/images/css/collage1', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\colage1.png');
+});
+
+app.get('/images/css/collage2', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\colage2.png');
+});
+
+app.get('/images/css/collage3', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\colage3.png');
+});
+
+app.get('/images/css/primevideo', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\amazon-prime-video.jpg');
+});
+
+app.get('/images/css/sorpresa', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\sorpresa.jpg');
+});
+
+//foto contacto
+app.get('/images/css/fot1', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot1.png');
+});
+
+app.get('/images/css/fot2', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot2.png');
+});
+
+app.get('/images/css/fot3', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot3.png');
+});
+
+app.get('/images/css/fot4', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot4.png');
+});
+
+app.get('/images/css/fot5', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot5.png');
+});
+
+app.get('/images/css/fot6', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot6.png');
+});
+
+app.get('/images/css/fot7', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot7.png');
+});
+
+app.get('/images/css/fot8', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot8.png');
+});
+
+app.get('/images/css/fot9', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\fot9.png');
+});
+
+app.get('/images/css/basura', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\basura.png');
+});
+
+app.get('/images/css/minilogo', async (req, res) => {
+    res.sendFile(__dirname+'\\images\\minilogo.jpg');
+});
