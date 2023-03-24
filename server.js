@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const uuid = require('uuid');
 
 app.use(express.json(), cors());
 
@@ -69,6 +70,7 @@ app.get('/contrasenya', async (req,res)=>{
 });
 
 const axios = require('axios');
+const fs = require("fs");
 
 async function sendEmail(name, email) {
     const data = JSON.stringify({
@@ -133,7 +135,29 @@ app.get('/api/nombre', async (req,res)=>{
     res.json(documento)
 });
 
+app.post('/formularioconsulta',(req, res) => {
+    const nombreArchivo = `${uuid.v4()}.txt`;
+    var {usuario, correu, missatge}=req.body;
+    var text="User: "+ usuario +"\n"+"Correu: "+correu+"\n"+"Missatge: "+missatge;
+    const escriure=fs.createWriteStream(nombreArchivo)
+    escriure.write(text)
+})
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//IMATGES
 //images ordiandor
 app.get('/images/ordinador/msimodern', async (req, res) => {
     res.sendFile(__dirname+'\\images\\MSI Modern.png');
