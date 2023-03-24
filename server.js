@@ -143,6 +143,17 @@ app.post('/formularioconsulta',(req, res) => {
     escriure.write(text)
 })
 
+app.get('/user', async (req,res)=>{
+    let correu = {name: req.query.name}
+    let resultat = false;
+    const docs = db.collection('usuaris')
+    const snapshot = await docs.where('Usuari', '==', correu.name).get()
+    snapshot.forEach(doc =>{
+        resultat = true
+    })
+    res.json(resultat)
+});
+
 
 
 
