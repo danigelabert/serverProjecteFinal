@@ -22,27 +22,52 @@ app.post('/lecturaBD', cors(), (req, res)=>{
     });
 })
 
-const db= function (){
-    const admin = require("firebase-admin");
-    const serviceAccount= require(resultat);
-    const {getFirestore} = require("firebase-admin/firestore");
+const datos= async function (){
+    const readableStream = fs.createReadStream("./bdd_connect", 'utf8');
+    readableStream.on('data', (chunk)=>{
+        resultat = chunk;
+    });
+}
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+const admin = require("firebase-admin");
+const {getFirestore}=require("firebase-admin/firestore");
+var serviceAccount;
 
+const dbExecucio=async function (){
+    if (resultat!==""){
+        datos()
+        await timeout(2000);
+    }
+    serviceAccount= require(resultat);
     if (admin.apps.length===0){
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount)
         });
     }
-
-    return getFirestore();
 }
-app.post('/prova', (req, res) => {
-    db();
+dbExecucio();
+
+//-----------------------------------------------------------------------------------------
+
+// Obtener datos actuales -----------------------------------------------------------------
+
+app.post('/api/logs',(req, res) => {
+    let data=new Date()
+    var dataFinal= ((data.getDay()+19)+"/"+(data.getMonth()+1)+"/"+data.getUTCFullYear()+" "+(data.getUTCHours()+1)+":"+data.getUTCMinutes()+":"+data.getSeconds())
+    var {usuario, accion}=req.body;
+    var text=dataFinal+": Usuario: "+usuario+" -> "+accion+"\n"
+    const escriure=fs.createWriteStream("./LogsUsuarios",{flags:'a+'})
+    escriure.write(text)
+    console.log("Registro guardado.")
 })
 
 //-----------------------------------------------------------------------------------------
 
-app.post('/registre', cors(), (req, res)=>{
 
+app.post('/registre', cors(), (req, res)=>{
+    const db=getFirestore()
     const user={'Usuari': req.body.user,
         'email': req.body.email,
         'contrasenya': req.body.password};
@@ -51,6 +76,7 @@ app.post('/registre', cors(), (req, res)=>{
 })
 
 app.get('/api/check', async (req,res)=>{
+    const db=getFirestore()
     let correu = {email: req.query.email}
     let resultat = false;
     const docs = db.collection('usuaris')
@@ -62,6 +88,7 @@ app.get('/api/check', async (req,res)=>{
 });
 
 app.get('/inicisessio', async (req,res)=>{
+    const db=getFirestore()
     let correu = {email: req.query.email}
     let resultat = false;
     const docs = db.collection('usuaris')
@@ -73,6 +100,7 @@ app.get('/inicisessio', async (req,res)=>{
 });
 
 app.get('/contrasenya', async (req,res)=>{
+    const db=getFirestore()
     let correu = {name: req.query.name}
     let resultat = false;
     const docs = db.collection('usuaris')
@@ -84,9 +112,9 @@ app.get('/contrasenya', async (req,res)=>{
 });
 
 const axios = require('axios');
-const admin = require("firebase-admin");
-
-
+// const admin = require("firebase-admin");
+// const {get} = require("axios");
+// const {getFirestore} = require("firebase-admin/firestore");
 
 async function sendEmail(name, email) {
     const data = JSON.stringify({
@@ -129,6 +157,7 @@ app.post('/api/sendemail/', function (req, res) {
 });
 
 app.post('/api/contrasenya', async (req,res)=>{
+    const db=getFirestore()
     const {email, contra}=req.body
     var documento=""
     const docs = db.collection('usuaris')
@@ -141,6 +170,7 @@ app.post('/api/contrasenya', async (req,res)=>{
 })
 
 app.get('/api/nombre', async (req,res)=>{
+    const db=getFirestore()
     const email=req.query.email
     var documento=""
     const docs = db.collection('usuaris')
