@@ -5,6 +5,8 @@ const app = express();
 const cors = require('cors');
 const fs = require('fs')
 const uuid = require('uuid');
+const {initModels} = require("./models/init-models");
+const {Sequelize} = require("sequelize");
 
 app.use(express.json(), cors());
 
@@ -197,6 +199,16 @@ app.get('/user', async (req,res)=>{
     })
     res.json(resultat)
 });
+
+
+
+
+// CONNEXIO BBDD
+const auto = new Sequelize('amazon', 'root', 'Admin1234', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
+const models = initModels(auto);
 
 
 
