@@ -203,20 +203,30 @@ app.get('/user', async (req,res)=>{
 
 
 
-// CONNEXIO BBDD
-const auto = new Sequelize('amazon', 'root', 'Admin1234', {
-    host: 'localhost',
+
+
+//Conexció MYSQL ----------------------------------------------------------------------------
+
+
+const credentials = fs.readFileSync('mysqlConnect.txt', 'utf8')
+    .split('\n')
+    .reduce((acc, line) => {
+        const [key, value] = line.split(/[^\w-]+/);
+        acc[key] = value;
+        return acc;
+    }, {});
+const mysql = require('mysql');
+
+
+const auto = new Sequelize(credentials.database, credentials.user, credentials.password, {
+    host: credentials.host,
     dialect: 'mysql'
 });
+console.log(credentials.database)
+console.log(credentials.user)
+console.log(credentials.password)
+console.log(credentials.host)
 const models = initModels(auto);
-
-
-
-
-
-
-
-
 
 
 

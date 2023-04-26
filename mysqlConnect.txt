@@ -1,0 +1,4 @@
+host=localhost
+user=root
+password=Admin1234
+database=amazon
