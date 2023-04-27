@@ -16,13 +16,6 @@ app.listen(port, () => {
 var resultat;
 
 //Conexció BDD ----------------------------------------------------------------------------
-app.post('/lecturaBD', cors(), (req, res)=>{
-    const readableStream = fs.createReadStream("./bdd_connect", 'utf8');
-    readableStream.on('data', (chunk)=>{
-        resultat = chunk;
-    });
-})
-
 const datos= async function (){
     const readableStream = fs.createReadStream("./bdd_connect", 'utf8');
     readableStream.on('data', (chunk)=>{
@@ -70,8 +63,9 @@ app.post('/api/logs',(req, res) => {
 app.post('/registre', cors(), (req, res)=>{
     const db=getFirestore()
     const user={'Usuari': req.body.user,
-        'email': req.body.email,
-        'contrasenya': req.body.password};
+                'email': req.body.email,
+                'contrasenya': req.body.password,
+                'admin': req.body.admin};
     db.collection('usuaris').add(user);
     console.log(user);
 })
@@ -99,6 +93,7 @@ app.get('/inicisessio', async (req,res)=>{
     })
     res.json(resultat)
 });
+
 
 app.get('/contrasenya', async (req,res)=>{
     const db=getFirestore()
@@ -177,6 +172,18 @@ app.get('/api/nombre', async (req,res)=>{
         documento=doc.data();
     })
     res.json(documento)
+});
+
+app.get('/api/admin', async (req,res)=>{
+    const db = getFirestore()
+    let correu = {email: req.query.email}
+    let resultat;
+    const docs = db.collection('usuaris')
+    const snapshot = await docs.where('email', '==', correu.email).get()
+    snapshot.forEach(doc =>{
+        resultat = doc.data();
+    })
+    res.json(resultat)
 });
 
 app.post('/formularioconsulta',(req, res) => {
