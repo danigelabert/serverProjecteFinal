@@ -222,15 +222,28 @@ const auto = new Sequelize(credentials.database, credentials.user, credentials.p
     host: credentials.host,
     dialect: 'mysql'
 });
-console.log(credentials.database)
-console.log(credentials.user)
-console.log(credentials.password)
-console.log(credentials.host)
 const models = initModels(auto);
 
 
 
+//PRODUCTES
+app.get('/periferics', async (req, res)=>{
+    const p= await models.producte.findAll({where:{prod_tipus: "perifèrics"}});
+    res.send(p)
+    console.log(p)
+})
 
+app.get('/ordenadors', async (req, res)=>{
+    const p= await models.producte.findAll({where:{prod_tipus: "ordenadores"}});
+    res.send(p)
+    console.log(p)
+})
+
+app.get('/mobils', async (req, res)=>{
+    const p= await models.producte.findAll({where:{prod_tipus: "moviles"}});
+    res.send(p)
+    console.log(p)
+})
 
 
 
