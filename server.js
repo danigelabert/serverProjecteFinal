@@ -5,6 +5,8 @@ const app = express();
 const cors = require('cors');
 const fs = require('fs')
 const uuid = require('uuid');
+const {initModels} = require("./models/init-models");
+const {Sequelize} = require("sequelize");
 
 app.use(express.json(), cors());
 
@@ -210,12 +212,45 @@ app.get('/user', async (req,res)=>{
 
 
 
+//Conexció MYSQL ----------------------------------------------------------------------------
+
+
+const credentials = fs.readFileSync('mysqlConnect.txt', 'utf8')
+    .split('\n')
+    .reduce((acc, line) => {
+        const [key, value] = line.split(/[^\w-]+/);
+        acc[key] = value;
+        return acc;
+    }, {});
+const mysql = require('mysql');
+
+
+const auto = new Sequelize(credentials.database, credentials.user, credentials.password, {
+    host: credentials.host,
+    dialect: 'mysql'
+});
+const models = initModels(auto);
 
 
 
+//PRODUCTES
+app.get('/periferics', async (req, res)=>{
+    const p= await models.producte.findAll({where:{prod_tipus: "perifèrics"}});
+    res.send(p)
+    console.log(p)
+})
 
+app.get('/ordenadors', async (req, res)=>{
+    const p= await models.producte.findAll({where:{prod_tipus: "ordenadores"}});
+    res.send(p)
+    console.log(p)
+})
 
-
+app.get('/mobils', async (req, res)=>{
+    const p= await models.producte.findAll({where:{prod_tipus: "moviles"}});
+    res.send(p)
+    console.log(p)
+})
 
 
 
