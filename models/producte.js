@@ -21,6 +21,10 @@ module.exports = function(sequelize, DataTypes) {
     prod_tipus: {
       type: DataTypes.STRING(45),
       allowNull: true
+    },
+    oferta: {
+      type: DataTypes.STRING(10),
+      allowNull: true
     }
   }, {
     sequelize,

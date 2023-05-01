@@ -51,7 +51,7 @@ dbExecucio();
 
 app.post('/api/logs',(req, res) => {
     let data=new Date()
-    var dataFinal= ((data.getDay()+19)+"/"+(data.getMonth()+1)+"/"+data.getUTCFullYear()+" "+(data.getUTCHours()+1)+":"+data.getUTCMinutes()+":"+data.getSeconds())
+    var dataFinal= ((data.getDay())+"/"+(data.getMonth()+1)+"/"+data.getUTCFullYear()+" "+(data.getUTCHours()+1)+":"+data.getUTCMinutes()+":"+data.getSeconds())
     var {usuario, accion}=req.body;
     var text=dataFinal+": Usuario: "+usuario+" -> "+accion+"\n"
     const escriure=fs.createWriteStream("./LogsUsuarios",{flags:'a+'})
@@ -251,6 +251,43 @@ app.get('/mobils', async (req, res)=>{
     res.send(p)
     console.log(p)
 })
+
+
+app.post('/api/historial', async (req, res)=>{
+    let data=new Date()
+    var dataFinal= ((data.getDay())+"/"+(data.getMonth()+1)+"/"+data.getUTCFullYear())
+
+    const {usuari, idprod} = req.body
+
+    const p = await models.producte.findOne({attributes:['oferta'], where:{prod_codi: 1}}).then(async (h) => {
+        const j =  models.compra.count({}).then(async (t) => {
+            let attr = {
+                idcompra: t+1,
+                usuari: usuari,
+                producte_id: idprod,
+                quantitat: 1,
+                data: dataFinal,
+                oferta: h.oferta
+            }
+            await models.compra.create(attr)
+        })
+        return h.oferta;
+    })
+})
+
+
+app.post('/api/recompte/movils', async (req, res) => {
+    const p = await models.compra.findAll({attributes})
+})
+
+
+
+
+
+
+
+
+
 
 
 
