@@ -259,7 +259,7 @@ app.post('/api/historial', async (req, res)=>{
 
     const {usuari, idprod} = req.body
 
-    const p = await models.producte.findOne({attributes:['oferta'], where:{prod_codi: 1}}).then(async (h) => {
+    const p = await models.producte.findOne({attributes:['oferta'], where:{prod_codi: idprod}}).then(async (h) => {
         const j =  models.compra.count({}).then(async (t) => {
             let attr = {
                 idcompra: t+1,
@@ -269,7 +269,7 @@ app.post('/api/historial', async (req, res)=>{
                 data: dataFinal,
                 oferta: h.oferta
             }
-            await models.compra.create(attr)
+            models.compra.create(attr)
         })
         return h.oferta;
     })
