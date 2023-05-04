@@ -223,6 +223,7 @@ const credentials = fs.readFileSync('mysqlConnect.txt', 'utf8')
         return acc;
     }, {});
 const mysql = require('mysql');
+const data = require("bootstrap/js/src/dom/data");
 
 
 const auto = new Sequelize(credentials.database, credentials.user, credentials.password, {
@@ -276,8 +277,18 @@ app.post('/api/historial', async (req, res)=>{
 })
 
 
-app.post('/api/recompte/movils', async (req, res) => {
-    const p = await models.compra.findAll({attributes})
+// app.post('/api/recompte/movils', async (req, res) => {
+//     const p = await models.compra.findAll({attributes})
+// })
+const { Op } = require("sequelize");
+
+app.post('/grafics/movils', async (req, res)=>{
+    var dataa = req.body
+    const p = await models.compra.findAndCountAll({attributes:['idcompra'], where:{data: dataa, producte_id: {[Op.lt]:7}}}).then((s)=>{
+        console.log(s)
+        res.json(s)
+    })
+
 })
 
 
@@ -321,7 +332,7 @@ app.get('/images/mobil/realmegt', async (req, res) => {
     res.sendFile(__dirname+'\\images\\realme.png');
 });
 app.get('/images/mobil/oppofind', async (req, res) => {
-    res.sendFile(__dirname+'\\images\\Asus F515.png');
+    res.sendFile(__dirname+'\\images\\oppo.png');
 });
 app.get('/images/mobil/xiaomi12t', async (req, res) => {
     res.sendFile(__dirname+'\\images\\oppo.png');
