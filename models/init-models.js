@@ -1,14 +1,15 @@
 var DataTypes = require("sequelize").DataTypes;
+var _compra = require("./compra");
 var _producte = require("./producte");
-var _compra = require("./compra")
 
 function initModels(sequelize) {
+  var compra = _compra(sequelize, DataTypes);
   var producte = _producte(sequelize, DataTypes);
-  var compra = _compra(sequelize, DataTypes)
+
 
   return {
+    compra,
     producte,
-    compra
   };
 }
 module.exports = initModels;

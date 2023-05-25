@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     oferta: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(45),
       allowNull: true
     }
   }, {

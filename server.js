@@ -176,6 +176,18 @@ app.get('/api/nombre', async (req,res)=>{
     res.json(documento)
 });
 
+app.get('/api/user', async (req,res)=>{
+    const db=getFirestore()
+    const email=req.query.email
+    var documento=""
+    const docs = db.collection('usuaris')
+    const snapshot = await docs.where('email', '==', email).get('Usuari');
+    snapshot.forEach(doc =>{
+        documento=doc.data();
+    })
+    res.json(documento)
+});
+
 app.get('/api/admin', async (req,res)=>{
     const db = getFirestore()
     let correu = {email: req.query.email}
@@ -224,12 +236,15 @@ const credentials = fs.readFileSync('mysqlConnect.txt', 'utf8')
     }, {});
 const mysql = require('mysql');
 const data = require("bootstrap/js/src/dom/data");
+const sequelize = require("sequelize");
 
 
 const auto = new Sequelize(credentials.database, credentials.user, credentials.password, {
     host: credentials.host,
     dialect: 'mysql'
 });
+console.log(credentials)
+
 const models = initModels(auto);
 
 
@@ -254,26 +269,53 @@ app.get('/mobils', async (req, res)=>{
 })
 
 
-app.post('/api/historial', async (req, res)=>{
-    let data=new Date()
-    var dataFinal= ((data.getDay())+"/"+(data.getMonth()+1)+"/"+data.getUTCFullYear())
+// app.post('/api/historial', async (req, res)=>{
+//     let data=new Date()
+//     var dataFinal= ((data.getDay())+"/"+(data.getMonth()+1)+"/"+data.getUTCFullYear())
+//
+//     const {usuari, idprod} = req.body
+//
+//     const p = await models.producte.findOne({attributes:['oferta'], where:{prod_codi: idprod}}).then(async (h) => {
+//         const j =  models.compra.count({}).then(async (t) => {
+//             let attr = {
+//                 idcompra: t+1,
+//                 usuari: usuari,
+//                 producte_id: idprod,
+//                 quantitat: 1,
+//                 data: dataFinal,
+//                 oferta: h.oferta
+//             }
+//             models.compra.create(attr)
+//         })
+//         return h.oferta;
+//     })
+// })
 
-    const {usuari, idprod} = req.body
 
-    const p = await models.producte.findOne({attributes:['oferta'], where:{prod_codi: idprod}}).then(async (h) => {
-        const j =  models.compra.count({}).then(async (t) => {
-            let attr = {
-                idcompra: t+1,
-                usuari: usuari,
-                producte_id: idprod,
-                quantitat: 1,
-                data: dataFinal,
-                oferta: h.oferta
-            }
-            models.compra.create(attr)
+
+app.post('/insertmoneda', async (req, res)=> {
+    models.compra.max('idcompra')
+        .then((maxId) => {
+            const nuevoIdCompra = (maxId || 0) + 1;
+
+            const nuevoRegistro = {
+                idcompra: nuevoIdCompra,
+                usuari: req.body.usuari,
+                data: new Date(),
+                cripto: req.body.cripto
+            };
+
+            models.compra.create(nuevoRegistro)
+                .then((registroCreado) => {
+                    console.log('Registro insertado correctamente:', registroCreado.toJSON());
+                })
+                .catch((error) => {
+                    console.error('Error al insertar el registro:', error);
+                });
         })
-        return h.oferta;
-    })
+        .catch((error) => {
+            console.error('Error al obtener el idcompra máximo:', error);
+        });
 })
 
 
@@ -332,7 +374,7 @@ app.get('/images/mobil/realmegt', async (req, res) => {
     res.sendFile(__dirname+'\\images\\realme.png');
 });
 app.get('/images/mobil/oppofind', async (req, res) => {
-    res.sendFile(__dirname+'\\images\\oppo.png');
+    res.sendFile(__dirname+'\\images\\Asus F515.png');
 });
 app.get('/images/mobil/xiaomi12t', async (req, res) => {
     res.sendFile(__dirname+'\\images\\oppo.png');
